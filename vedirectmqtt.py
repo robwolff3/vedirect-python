@@ -2,21 +2,21 @@
 # Created on Apr 17, 2022
 # @author: lsimmons
 ##################################
-import serial, time, getopt, sys, datetime
+import serial, time, getopt, sys, datetime, os
 import paho.mqtt.client as paho
 
 ver     = "VEDMQTT v1.00 - 04/18/2022"
 auth    = "L. Simmons"
 github  = "simmonslr"
 
-serPort = "serPort"     # USB Port
+serPort = os.environ['serPort']     # USB Port
 
 mqID    = ver           # MQTT Client ID
-mqHost  = "mqHost"      # MQTT Host
-mqPort  = "mqPort"      # MQTT Host Port
-mqUID   = "mqUID"       # MQTT Host User ID
-mqPW    = "mqPW"        # MQTT Host Password
-mqTopic = "mqTopic"     # MQTT Topic
+mqHost  = os.environ['mqHost']      # MQTT Host
+mqPort  = os.environ['mqPort']      # MQTT Host Port
+mqUID   = os.environ['mqUID']       # MQTT Host User ID
+mqPW    = os.environ['mqPW']        # MQTT Host Password
+mqTopic = os.environ['mqTopic']     # MQTT Topic
 
 freq    = 5             # only send every
 pktCnt  = freq          # this many packets
@@ -200,38 +200,6 @@ def mqPost ( dic ):
     except Exception as ex:
         print ( "MQTT Exception: {}".format(type(ex).__name__))
         print ( "MQTT Exception: {}".format ( ex ))
-
-####################################
-#                                  #
-####################################
-def getArgs ( argv ):
-    
-    global serPort, mqHost, mqPort, mqUID, mqPW, mqTopic
-
-    try:
-        opts, args = getopt.getopt ( argv,"hs:o:p:u:w:t:", [ "serPort=", "mqHost=", "mqPort=", "mqUID=", "mqPW=", "mqTopic=" ] )
-    except getopt.GetoptError:
-        print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -u <mqUID> -w <mqPW> -t <mqTopic>" )
-        sys.exit ( 2 )
-
-    for opt, arg in opts:
-        if opt in ( '-h', "--help" ):
-            print ( "vedirectmqtt.py -s <serPort> -o <mqHost> -p <mqPort> -u <mqUID> -w <mqPW> -t <mqTopic>" )
-            sys.exit()
-        elif opt in ("-s", "--serPort"):
-            serPort = arg
-        elif opt in ("-o", "--mqHost"):
-            mqHost = arg
-        elif opt in ("-p", "--mqPort"):
-            mqPort = arg
-        elif opt in ("-u", "--mqUID"):
-            mqUID = arg
-        elif opt in ( "-w", "--mqPW"):
-            mqPW = arg
-        elif opt in ( "-t", "--mqTopic" ):
-            mqTopic = arg
-
-    return serPort
 
 ####################################
 #                                  #
