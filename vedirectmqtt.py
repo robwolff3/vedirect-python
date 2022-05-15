@@ -206,8 +206,6 @@ def mqPost ( dic ):
 ####################################
 if __name__ == '__main__':
 
-    getArgs ( sys.argv[1:] )
-
     print ( "===============")
     print ( ver )
     print ( "serPort: " + serPort )
